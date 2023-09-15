@@ -1,0 +1,166 @@
+classDiagram
+
+    note for EstadoCurso "los metodos set y get se definen
+    en la clase EstadoCurso y son 
+    extensivos por todas las demas 
+    clases del modelo"
+
+    class Usuario{
+    -String nombre_completo
+    -String domicilio
+    -mail mail
+    -String telefono
+    -Tipodocumento Tipodocumento
+    -String documento
+    -Date fecha_nacimiento
+    }
+
+    class Tipodocumento{
+    -String nombre
+    -String descripcion
+    }
+
+
+    class Alumno{
+    -Carrera listaCarrera
+    -Inscripcion listaInscripciones
+
+    +crear()
+    +inscribirse()
+    +generarReporte()
+    }
+
+    class Inscripcion{
+    -Curso curso
+    -Carrera carrera
+    -CondicionFinalCursada condicionFinal
+    -NotaEvaluacion listaNotas
+    -EstadoCurso estado
+    -DateTime fechaInicio
+    -DateTime fechaFinal
+
+    +crear()
+    +asignarFechaInicio()
+    +asignarFechaFin()
+    +conocerCursos()
+    +conocerCarrera()
+    +conocerMateria()
+    +conocerCondicionFinal()
+    +cambiarEstado()
+    +cambiarCondicionFinal()
+    +listarNotas()
+    +generarCodigo()
+    }
+
+    class Materia{
+    -String nombre
+    -String siglas
+    -Carrera carrera
+    -Curso listaCursos
+    -Materia materia_correlativa
+
+    +crear()
+    +conocerCorrelatividad()
+    +conocerPlanAcademico()
+
+    }
+
+    class Correlatividad{
+    -Materia materia
+    -EstadoCurso estado_curso
+    
+    +conocerEstadocurso()
+    +conocerPlanAcademico()
+    }
+
+    class Turno{
+    -String nombre
+    -String descripcion
+    }
+
+    class Curso{
+    -String nombreCurso
+    -Turno turno
+    -int nivel
+    -String listaHorarios
+    
+    +crear()
+    }
+
+    class PlanAcademico{
+    -String nombre
+    -String descripcion
+    }
+
+    class EstadoCurso{
+    -String nombre
+    -String descripcion
+
+    +setNombre()
+    +getNombre()
+    +setDescripcion()
+    +getDescripcion()
+    +cargarCondicionFinal()
+    }
+
+    class Historial{
+    -String nombre
+    -String descripcion
+    -Date fecha_inicio
+    -Date fecha_final
+    -EstadoCurso estado_curso
+    }
+
+    class NotaEvaluacion{
+    -String nombre
+    -String tipoEvaluacion
+    -int valor
+    -Date fecha
+    -Profesor profesor
+
+    +crear()
+    }
+
+    class Profesor{
+    -Curso curso
+
+    +crear()
+    }
+
+    class Carrera{
+    -String nombre
+    -String descripcion
+    -Materia listaMaterias
+    }
+
+    Usuario --> Tipodocumento
+    Usuario <|-- Alumno
+    Usuario <|-- Profesor
+
+    Alumno --> Inscripcion
+    Alumno --> Carrera
+
+    Carrera --> Materia
+
+    Materia --> Curso
+    Materia --> Correlatividad
+    Materia --> Profesor
+    
+    Inscripcion --> NotaEvaluacion
+    Inscripcion --> EstadoCurso
+    Inscripcion --> Curso
+    Inscripcion --> Historial
+
+    Curso --> Turno
+
+    Correlatividad --> Materia
+    Correlatividad --> PlanAcademico
+    Materia --> PlanAcademico
+
+    NotaEvaluacion --> Profesor
+
+    Historial --> EstadoCurso
+
+    Correlatividad --> EstadoCurso
+   
+    Profesor --> Curso 
