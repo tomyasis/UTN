@@ -133,34 +133,34 @@ classDiagram
     -Materia listaMaterias
     }
 
-    Usuario --> Tipodocumento
+    Usuario --> "1" Tipodocumento
     Usuario <|-- Alumno
     Usuario <|-- Profesor
 
-    Alumno --> Inscripcion
-    Alumno --> Carrera
+    Alumno --> "1--*" Inscripcion
+    Alumno --> "1..*" Carrera
 
-    Carrera --> Materia
+    Carrera --> "1..*" Materia
 
-    Materia --> Curso
-    Materia --> Correlatividad
-    Materia --> Profesor
+    Materia --> "1..*" Curso
+    Materia --> "1" Correlatividad
+    Materia --> "1..*" Profesor
     
-    Inscripcion --> NotaEvaluacion
-    Inscripcion --> EstadoCurso
-    Inscripcion --> Curso
-    Inscripcion --> Historial
+    Inscripcion --> "1..*" NotaEvaluacion
+    Inscripcion --> "1" EstadoCurso
+    Inscripcion --> "1..*" Curso
+    Inscripcion --> "1..*" Historial
 
-    Curso --> Turno
+    Curso --> "1" Turno
 
-    Correlatividad --> Materia
-    Correlatividad --> PlanAcademico
-    Materia --> PlanAcademico
+    Correlatividad --> "1" Materia
+    Correlatividad --> "1" PlanAcademico
+    Materia --> "1" PlanAcademico
 
-    NotaEvaluacion --> Profesor
+    NotaEvaluacion --> "1" Profesor
 
-    Historial --> EstadoCurso
+    Historial --> "1" EstadoCurso
 
-    Correlatividad --> EstadoCurso
+    Correlatividad --> "1" EstadoCurso
    
-    Profesor --> Curso 
+    Profesor --> "1..*" Curso 
