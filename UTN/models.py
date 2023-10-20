@@ -1,37 +1,70 @@
 from django.db import models
 
-# Clase para representar Categorías
-class Categoria(models.Model):
-    nombre = models.CharField(max_length=100)
+class Tipodocumento(models.Model):
+    nombre = models.CharField(max_length=255)
+    descripcion = models.TextField()
 
-    def __str__(self):
-        return self.nombre
+class Usuario(models.Model):
+    nombre_completo = models.CharField(max_length=255)
+    domicilio = models.CharField(max_length=255)
+    mail = models.EmailField()
+    telefono = models.CharField(max_length=20)
+    tipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE)
+    documento = models.CharField(max_length=20)
+    fecha_nacimiento = models.DateField()
 
-# Clase para representar Autores
-class Autor(models.Model):
-    nombre = models.CharField(max_length=100)
-    biografia = models.TextField()
+class Turno(models.Model):
+    nombre = models.CharField(max_length=255)
+    descripcion = models.TextField()
 
-    def __str__(self):
-        return self.nombre
+class Carrera(models.Model):
+    nombre = models.CharField(max_length=255)
+    descripcion = models.TextField()
 
-# Clase para representar Posts del Blog
-class Post(models.Model):
-    titulo = models.CharField(max_length=200)
-    contenido = models.TextField()
-    fecha_publicacion = models.DateTimeField(auto_now_add=True)
-    autor = models.ForeignKey(Autor, on_delete=models.CASCADE)  # Relación con Autor
-    categorias = models.ManyToManyField(Categoria)              # Relación con Categoría
+class Materia(models.Model):
+    nombre = models.CharField(max_length=255)
+    siglas = models.CharField(max_length=10)
+    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
+    materia_correlativa = models.OneToOneField('self', null=True, blank=True, on_delete=models.SET_NULL)
+    
+class Curso(models.Model):
+    nombreCurso = models.CharField(max_length=255)
+    turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
+    nivel = models.IntegerField()
+    listaHorarios = models.TextField()
 
-    def __str__(self):
-        return self.titulo
+class Correlatividad(models.Model):
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
+    estado_curso = models.ForeignKey('EstadoCurso', on_delete=models.CASCADE)
 
-# Clase para representar Comentarios en los Posts
-class Comentario(models.Model):
-    autor = models.CharField(max_length=100)
-    contenido = models.TextField()
-    fecha_comentario = models.DateTimeField(auto_now_add=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)  # Relación con Post
+class EstadoCurso(models.Model):
+    nombre = models.CharField(max_length=255)
+    descripcion = models.TextField()
 
-    def __str__(self):
-        return self.contenido
+class Historial(models.Model):
+    nombre = models.CharField(max_length=255)
+    descripcion = models.TextField()
+    fecha_inicio = models.DateField()
+    fecha_final = models.DateField()
+    estado_curso = models.ForeignKey(EstadoCurso, on_delete=models.CASCADE)
+
+class NotaEvaluacion(models.Model):
+    nombre = models.CharField(max_length=255)
+    tipoEvaluacion = models.CharField(max_length=255)
+    valor = models.IntegerField()
+    fecha = models.DateField()
+    profesor = models.ForeignKey('Profesor', on_delete=models.CASCADE)
+
+class Profesor(models.Model):
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+
+class Inscripcion(models.Model):
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
+    condicionFinal = models.ForeignKey(EstadoCurso, on_delete=models.CASCADE)
+    fechaInicio = models.DateTimeField()
+    fechaFinal = models.DateTimeField()
+
+class Alumno(Usuario):
+    listaCarrera = models.ManyToManyField(Carrera)
+    listaInscripciones = models.ManyToManyField(Inscripcion)
