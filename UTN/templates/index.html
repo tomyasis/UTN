@@ -1,65 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Universidad Tecnologica Nacional</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 25%;
-            text-align: center;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-
-        }
-
-        nav {
-            background-color: #444;
-            padding: 10px 0;
-            text-align: center;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 20px;
-        }
-
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-
-        .main {
-            padding: 20px 0;
-            text-align: center;
-        }
-        .logo{
-            width: 70px;
-            height: 70px;
-        }
-
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
     <header>
@@ -81,5 +28,25 @@
     <footer>
         <p>&copy; 2023 Universidad Tecnologica Nacional. Todos los derechos reservados.</p>
     </footer>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+</head>
+<body>
+    <h1>Iniciar Sesión</h1>
+    <form action="procesar_iniciar_sesion.php" method="post">
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" required>
+        
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+        
+        <input type="submit" value="Iniciar Sesión">
+    </form>
 </body>
 </html>
