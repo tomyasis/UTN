@@ -17,7 +17,7 @@ classDiagram
 
     class Tipodocumento{
     -String nombre
-    -String descripcion
+    -String descripcion<link rel="stylesheet" href="{% static 'css/index.css' %}">
     }
 
 
@@ -65,7 +65,7 @@ classDiagram
 
     }
 
-    class Correlatividad{
+    class Correlatividad{entity
     -Materia materia
     -EstadoCurso estado_curso
     
@@ -79,9 +79,27 @@ classDiagram
     }
 
     class Curso{
-    -String nombreCurso
+    -String nombreCursoentity
     -Turno turno
-    -int nivel
+    -i
+    Inscripcion --> "1..*" NotaEvaluacion
+    Inscripcion --> "1" EstadoCurso
+    Inscripcion --> "1..*" Curso
+    Inscripcion --> "1..*" Historial
+
+    Curso --> "1" Turno
+
+    Correlatividad --> "1" Materia
+    Correlatividad --> "1" PlanAcademico
+    Materia --> "1" PlanAcademico
+
+    NotaEvaluacion --> "1" Profesor
+
+    Historial --> "1" EstadoCurso
+
+    Correlatividad --> "1" EstadoCurso
+   
+    Profesor --> "1..*" Curso nt nivel
     -String listaHorarios
     
     +crear()
@@ -111,7 +129,7 @@ classDiagram
     -EstadoCurso estado_curso
     }
 
-    class NotaEvaluacion{
+    class NotaEvaluacion{entity
     -String nombre
     -String tipoEvaluacion
     -int valor
@@ -127,6 +145,24 @@ classDiagram
     +crear()
     }
 
+    Inscripcion --> "1..*" NotaEvaluacion
+    Inscripcion --> "1" EstadoCurso
+    Inscripcion --> "1..*" Curso
+    Inscripcion --> "1..*" Historial
+
+    Curso --> "1" Turno
+
+    Correlatividad --> "1" Materia
+    Correlatividad --> "1" PlanAcademico
+    Materia --> "1" PlanAcademico
+
+    NotaEvaluacion --> "1" Profesor
+
+    Historial --> "1" EstadoCurso
+
+    Correlatividad --> "1" EstadoCurso
+   
+    Profesor --> "1..*" Curso 
     class Carrera{
     -String nombre
     -String descripcion
