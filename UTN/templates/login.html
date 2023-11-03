@@ -1,38 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %} Registrarse {% endblock %}
+{% block title %} Iniciar Sesion {% endblock %}
 
 {%block content%}
-<h1>Crear Cuenta</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="nombre_completo">Nombre Completo:</label>
-        <input type="text" name="nombre_completo" required><br>
-        
-        <label for="domicilio">Domicilio:</label>
-        <input type="text" name="domicilio" required><br>
-        
-        <label for="mail">Correo Electrónico:</label>
-        <input type="email" name="mail" required><br>
-        
-        <label for="telefono">Teléfono:</label>
-        <input type="text" name="telefono" required><br>
-        
-        <label for="tipodocumento">Tipo de Documento:</label>
-        <select name="tipodocumento" required>
-           {% for tipo_documento in tipos_documentos %}
-               <option value="{{ tipo_documento.id }}">{{ tipo_documento.nombre }}</option>
-           {% endfor %} 
-        </select><br>
-        
-        <label for="documento">Número de Documento:</label>
-        <input type="text" name="documento" required><br>
-        
-        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-        <input type="date" name="fecha_nacimiento" required><br>
-        
-        <button type="submit">Crear Cuenta</button>
-    </form>
 
+<h1>Iniciar Sesión</h1>
+
+<form action="" method="post">
+    <label for="usuario">Usuario:</label>
+    <input type="text" id="usuario" name="usuario" required>
+    
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" id="contrasena" name="contrasena" required>
+    
+    <input type="submit" value="Iniciar Sesión">
+</form>
 
 {% endblock %}
