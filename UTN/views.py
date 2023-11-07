@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from UTN.models import *
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 
@@ -8,43 +9,60 @@ from django.http import HttpResponse
 def inicio(request):
     return render(request, 'index.html')        
 
-def login (request):    
-    if request.method == 'POST':
+def login_view (request):
+    if request.method == 'GET':    
+        return render(request, 'login.html')   
+     
+    elif request.method == 'POST':
         usuario = request.POST['usuario']
         contrasena = request.POST['contrasena']
 
         user = authenticate(request, username=usuario, password=contrasena)
         if user is not None:
-            login(request, user)
+            
+            login(request, user)    
             
             #request.session["user"] = usuario
             #request.session["password"] = contrasena
+
             return redirect('/')  
         else:
             return render(request, HttpResponse('logiate bien boludito'))
-    else:    
-        return render(request, 'login.html')
+    
 
-def signin(request):
-    if request.method == 'POST':    
-        nombre_completo = request.POST['nombre_completo']
-        domicilio = request.POST['domicilio']
-        mail = request.POST['mail']
-        telefono = request.POST['telefono']
-        tipodocumento_id = request.POST['tipodocumento']
-        documento = request.POST['documento']
-        fecha_nacimiento = request.POST['fecha_nacimiento']
-
-        Usuario.objects.create(
-            nombre_completo=nombre_completo,
-            domicilio=domicilio,
-            mail=mail,
-            telefono=telefono,
-            tipodocumento_id=tipodocumento_id,
-            documento=documento,
-            fecha_nacimiento=fecha_nacimiento
-        )
-        return redirect('/')
-    else:
+def signup(request):
+    
+    if request.method == 'GET':
         tiposdocumento = Tipodocumento.objects.all()
-        return render(request, 'signin.html', { 'tipos_documentos' : tiposdocumento})
+        return render(request, 'signup.html', { 'tipos_documentos' : tiposdocumento})
+    
+    elif request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+
+
+        if User.objects.filter(username=username).exists():
+            error_message = "El nombre de usuario ya está en uso."
+        
+        elif User.objects.filter(email=email).exists():
+            error_message = "El correo electrónico ya está en uso."
+
+        elif User.objects.filter(password=password).exists():
+            error_message = "La contasenia ya esta en uso"
+             
+        else:
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                is_active = 'True'
+            )
+            return render(request, 'index.html')
+
+        return render(request, 'signup.html', {'error_message': error_message})
+        
