@@ -25,9 +25,10 @@ def login_view (request):
             #request.session["user"] = usuario
             #request.session["password"] = contrasena
 
-            return redirect('/')  
+            return redirect('home')  
         else:
-            return render(request, HttpResponse('logiate bien boludito'))
+            error_message = ''
+            return render(request, {'error_message': error_message} )
     
 
 def signup(request):
@@ -62,7 +63,7 @@ def signup(request):
                 last_name=last_name,
                 is_active = 'True'
             )
-            return render(request, 'index.html')
+            return render(request, 'home.html')
 
         return render(request, 'signup.html', {'error_message': error_message})
         
