@@ -67,3 +67,27 @@ def signup(request):
 
         return render(request, 'signup.html', {'error_message': error_message})
         
+
+def home(request):
+    return render(request, 'home.html')
+
+
+
+def inscribir(request):
+
+    return render(request, 'inscribir.html')
+
+
+def horario(request):
+
+    return render(request, 'horario.html')
+
+
+def historial(request):
+
+    return render(request, 'historial.html')
+
+
+def notas(request):
+    
+    return render(request, 'notas.html')
