@@ -72,15 +72,16 @@ def home(request):
     return render(request, 'home.html')
 
 
-
 def inscribir(request):
-
-    return render(request, 'inscribir.html')
-
+    if request.method == 'GET':    
+        return render(request, 'inscribir.html')
+    elif request.method == 'POST':
+        pass
 
 def horario(request):
 
     return render(request, 'horario.html')
+    
 
 
 def historial(request):
@@ -89,5 +90,5 @@ def historial(request):
 
 
 def notas(request):
-    
+
     return render(request, 'notas.html')
