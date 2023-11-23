@@ -74,7 +74,12 @@ def home(request):
 
 def inscribir(request):
     if request.method == 'GET':    
-        return render(request, 'inscribir.html')
+        carreras = Usuario.carrera.all()
+        materias_totales = []
+        for c in carreras:
+            materias = Materia.objects.filter(carrera = request.Usuario.carrera)
+            materias_totales.append(materias)
+        return render(request, 'inscribir.html', { 'materias_totales' : materias_totales})
     elif request.method == 'POST':
         pass
 

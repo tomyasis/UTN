@@ -5,12 +5,6 @@ from django.contrib.auth.models import AbstractUser
 class Tipodocumento(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
-
-class Usuario(AbstractUser):
-    tipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE, null=True)
-    documento = models.CharField(max_length=20, null=True)
-    fecha_nacimiento = models.DateField(null=True)
-
 class Turno(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
@@ -19,12 +13,27 @@ class Carrera(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
 
+
+    def __str__(self):
+        return self.nombre
+    
+
+class Usuario(AbstractUser):
+    tipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE, null=True)
+    documento = models.CharField(max_length=20, null=True)
+    fecha_nacimiento = models.DateField(null=True)
+    carrera = models.ManyToManyField(Carrera, null=True)
+
 class Materia(models.Model):
     nombre = models.CharField(max_length=255)
     siglas = models.CharField(max_length=10)
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
     materia_correlativa = models.OneToOneField('self', null=True, blank=True, on_delete=models.SET_NULL)
     
+    def __str__(self):
+        return self.siglas
+    
+
 class Curso(models.Model):
     nombreCurso = models.CharField(max_length=255)
     turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
