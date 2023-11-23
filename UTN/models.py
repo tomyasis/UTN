@@ -7,9 +7,9 @@ class Tipodocumento(models.Model):
     descripcion = models.TextField()
 
 class Usuario(AbstractUser):
-    tipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE)
-    documento = models.CharField(max_length=20)
-    fecha_nacimiento = models.DateField()
+    tipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE, null=True)
+    documento = models.CharField(max_length=20, null=True)
+    fecha_nacimiento = models.DateField(null=True)
 
 class Turno(models.Model):
     nombre = models.CharField(max_length=255)
