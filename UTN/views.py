@@ -79,9 +79,19 @@ def inscribir(request):
         for c in carreras:
             materias = Materia.objects.filter(carrera = request.Usuario.carrera)
             materias_totales.append(materias)
-        return render(request, 'inscribir.html', { 'materias_totales' : materias_totales})
+        return render(request, 'inscribir.html', { 'materias_totales' : materias_totales,
+                                                    'carreras' : carreras})
     elif request.method == 'POST':
-        pass
+        # Obtener los datos del formulario
+        carrera = request.POST['carrera']
+        materia = request.POST['materia']
+
+        # Crear una nueva instancia de Inscripcion
+        inscripcion = Inscripcion()
+        inscripcion.usuario = request.user
+        inscripcion.carrera = carrera.id
+        inscripcion.curso = materia.id
+        inscripcion.save()
 
 def horario(request):
 

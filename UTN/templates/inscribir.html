@@ -1,9 +1,22 @@
 {% extends 'base2.html' %}
 
 {% block title %} {% endblock %}
-# ventana en donde muestre todas las amteria de la carrera del usuario y que el usuario pueda inscribirse con un boton
-<h1>Inscribir</h1>
-<p>{{materias_total}}</p>
+    <h1>Inscribir a materias></h1>
+    {% csrf_token %}
+    {for c in carreras %}
+        <h1>{{c}}</h1>
+        {% for m in materias_totales %}
+            <form action="" method="post">
+                {% csrf_token %}
+                <label for="materia">Materia:</label>
+                <input type="text" id="materia" name="materia" value={{m}} readonly>
+
+                <input type="submit" value="Inscribirse">
+            </form>
+            {{m}}
+
+        {% endfor %}
+    {% endfor %}
 
 {% block content %}
 {% endblock %}
