@@ -5,11 +5,11 @@
 {% block content %}
 
     <h1>Historial de materias</h1>
-    <h3>{{inscripciones}}</h3>
     {% for i in inscripciones %}
         <h3>Materia: {{i.curso.materia}}</h3><br>
         <p>Turno: {{i.curso.turno}}</p><br>
         <p>Nivel: {{i.curso.nivel}}</p><br>
+        <p>Fecha de Inscripción: {{i.fechaInicio}}</p><br>
     {% endfor %}
 
 {% endblock %}

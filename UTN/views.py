@@ -134,7 +134,7 @@ def horario(request):
 def historial(request):
     if request.method == 'GET':
         print(request.user)
-        inscripciones = Inscripcion.objects.filter(usuario = request.user)
+        inscripciones = Inscripcion.objects.filter(usuario = request.user).order_by('fechaInicio')
         return render(request, 'historial.html', {'inscripciones' : inscripciones})
     else:
         return render(request, 'historial.html')
