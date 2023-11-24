@@ -21,9 +21,6 @@ def login_view (request):
         if user is not None:
             
             login(request, user)    
-            
-            #request.session["user"] = usuario
-            #request.session["password"] = contrasena
 
             return redirect('home')  
         else:
