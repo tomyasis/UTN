@@ -45,17 +45,17 @@ def signup(request):
         last_name = request.POST['last_name']
 
 
-        if User.objects.filter(username=username).exists():
+        if Usuario.objects.filter(username=username).exists():
             error_message = "El nombre de usuario ya está en uso."
         
-        elif User.objects.filter(email=email).exists():
+        elif Usuario.objects.filter(email=email).exists():
             error_message = "El correo electrónico ya está en uso."
 
-        elif User.objects.filter(password=password).exists():
+        elif Usuario.objects.filter(password=password).exists():
             error_message = "La contasenia ya esta en uso"
              
         else:
-            user = User.objects.create_user(
+            user = Usuario.objects.create_user(
                 username=username,
                 password=password,
                 email=email,
