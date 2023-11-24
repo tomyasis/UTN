@@ -1,6 +1,10 @@
 {% extends 'base2.html' %}
 
 {% block title %} {% endblock %}
+    <h1>Historial de materias</h1>
 
+    {% for i in inscripciones %}
+        <p>{{i.materia}}</p>
+    {% endfor %}
 {% block content %}
 {% endblock %}
