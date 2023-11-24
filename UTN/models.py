@@ -6,14 +6,22 @@ from datetime import date
 class Tipodocumento(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
+
+    def __str__(self):
+        return self.nombre
+    
+
 class Turno(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
 
+    def __str__(self):
+        return self.nombre
+    
+
 class Carrera(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
-
 
     def __str__(self):
         return self.nombre
@@ -24,6 +32,7 @@ class Usuario(AbstractUser):
     documento = models.CharField(max_length=20, null=True)
     fecha_nacimiento = models.DateField(null=True)
     carrera = models.ManyToManyField(Carrera, null=True, default='')
+
 
 class Materia(models.Model):
     nombre = models.CharField(max_length=255)
@@ -41,6 +50,10 @@ class Curso(models.Model):
     nivel = models.IntegerField()
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE, default='')
     listaHorarios = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.nombreCurso
+    
 
 class EstadoCurso(models.Model):
     nombre = models.CharField(max_length=255)
@@ -94,6 +107,7 @@ class NotaEvaluacion(models.Model):
     Inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, default='')
     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
 
+    
 class Historial(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()

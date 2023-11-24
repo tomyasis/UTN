@@ -81,14 +81,23 @@ def inscribir(request):
 
         usuario = request.user   
         carreras = usuario.carrera.all()
+        
         materias_totales = []
+        cursos_totales = []
         print(usuario.carrera.all())
+        
         for c in carreras:
             materias = Materia.objects.filter(carrera = c)
             for m in materias:
                 materias_totales.append(m)
+                cursos = Curso.objects.filter(materia = m)
+                for a in cursos:
+                    cursos_totales.append(a)
+                    
         return render(request, 'inscribir.html', { 'materias_totales' : materias_totales,
-                                                    'carreras' : carreras})
+                                                    'carreras' : carreras,
+                                                    'cursos_totales' : cursos_totales})
+   
     elif request.method == 'POST':
         # Obtener los datos del formulario
         carrera_id = request.POST['carrera_id']
