@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import horarios_clases
+from .views import signup, HorarioClase
 
 urlpatterns = [
     path('', views.inicio),
@@ -11,5 +11,5 @@ urlpatterns = [
     path('horario/', views.horario),
     path('inscribir/', views.inscribir),
     path('notas/', views.notas),
-    path('horarios/', horarios_clases, name='horarios_clases'),
+    path('horarios/', HorarioClase, name='horarios_clases'),
 ]

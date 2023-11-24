@@ -71,14 +71,16 @@ def signup(request):
                 fecha_nacimiento = fecha_nacimiento
 
             )
-            return render(request, 'home.html')
+            def HorarioClase(request):
+                return render(request, 'home.html')
 
         return render(request, 'signup.html', {'error_message': error_message})
         
 
 def home(request):
-    return render(request, 'home.html')
-
+    if request.method == 'GET':
+        usurario = request.user
+        return render(request, 'home.html', {'usuario' : usurario})
 
 def inscribir(request):
     if request.method == 'GET':
@@ -150,7 +152,7 @@ def notas(request):
 
 
 
-def horarios_clases(request):
+#def horarios_clases(request):
     if request.method == 'POST':
         form = HorarioClaseForm(request.POST)
         if form.is_valid():

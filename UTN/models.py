@@ -136,3 +136,33 @@ class MiModelo(models.Model):
 
     def __str__(self):
         return self.campo1
+    
+class Horario:
+    def __init__(self, dia, turno, actividad):
+        self.dia = dia
+        self.turno = turno
+        self.actividad = actividad
+
+'''class HorarioClase:
+    def __init__(self):
+        self.horarios = []
+
+    def agregar_horario(self, dia, turno, actividad):
+        horario = Horario(dia, turno, actividad)
+        self.horarios.append(horario)
+
+    def mostrar_horarios(self):
+        for horario in self.horarios:
+            print(f"{horario.dia} - {horario.turno}: {horario.actividad}")
+
+#ejem
+horarios_semana = HorarioClase()
+
+#agregar
+horarios_semana.agregar_horario("Lunes", "Mañana", "Clase de Matemáticas")
+horarios_semana.agregar_horario("Martes", "Tarde", "Reunión de equipo")
+horarios_semana.agregar_horario("Miércoles", "Noche", "Estudio individual")
+horarios_semana.agregar_horario("Jueves", "Mañana", "Clase de Historia")
+
+#ver
+horarios_semana.mostrar_horarios()'''
