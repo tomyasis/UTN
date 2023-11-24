@@ -27,8 +27,10 @@ def login_view (request):
 
             return redirect('home')  
         else:
-            error_message = ''
-            return render(request, {'error_message': error_message} )
+            
+            error_message = 'credenciales invalidas'
+            return render(request, 'login.html')
+          #  return render(request, {'error_message': error_message} )
     
 
 def signup(request):
@@ -71,10 +73,9 @@ def signup(request):
                 fecha_nacimiento = fecha_nacimiento
 
             )
-            def HorarioClase(request):
-                return render(request, 'home.html')
-
-        return render(request, 'signup.html', {'error_message': error_message})
+        tiposdocumento = Tipodocumento.objects.all()
+        return render(request, 'signup.html', {'error_message': error_message,
+                                               'tipos_documento': tiposdocumento})
         
 
 def home(request):

@@ -3,7 +3,7 @@
 {% block title %} {% endblock %}
 
 {% block content %}
-
+    <link rel="stylesheet" type="text/css" href="../static/css/histrial.css">
     <h1>Historial de materias</h1>
     {% for i in inscripciones %}
         <h3>Materia: {{i.curso.materia}}</h3><br>
