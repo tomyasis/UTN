@@ -93,7 +93,7 @@ class Inscripcion(models.Model):
     def __str__(self):
         return self.curso.nombreCurso + ' ' + self.usuario.username
 
-    def setFechaFinal(self, fechaFinal):
+    def setFechaFinal(self, fechaFinal):    
         self.fechaFinal = fechaFinal
 
     def generar_codigo_alfanumerico():

@@ -133,6 +133,7 @@ def horario(request):
 
 def historial(request):
     if request.method == 'GET':
+        print(request.user)
         inscripciones = Inscripcion.objects.filter(usuario = request.user)
         return render(request, 'historial.html', {'inscripciones' : inscripciones})
     return render(request, 'historial.html')
