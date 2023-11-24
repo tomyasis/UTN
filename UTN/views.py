@@ -77,12 +77,16 @@ def home(request):
 
 
 def inscribir(request):
-    if request.method == 'GET':    
-        carreras = Usuario.carrera.all()
+    if request.method == 'GET':
+
+        usuario = request.user   
+        carreras = usuario.carrera.all()
         materias_totales = []
+        print(usuario.carrera.all())
         for c in carreras:
-            materias = Materia.objects.filter(carrera = request.Usuario.carrera)
-            materias_totales.append(materias)
+            materias = Materia.objects.filter(carrera = c)
+            for m in materias:
+                materias_totales.append(m)
         return render(request, 'inscribir.html', { 'materias_totales' : materias_totales,
                                                     'carreras' : carreras})
     elif request.method == 'POST':
@@ -98,6 +102,7 @@ def inscribir(request):
         inscripcion.usuario = request.user
         inscripcion.carrera = carrera
         #inscripcion.curso = materia
+        inscripcion.fechaInicio = inscribir.setFechaIncio()
         inscripcion.save()
 
 def horario(request):

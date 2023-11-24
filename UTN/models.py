@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from datetime import date
 
 
 class Tipodocumento(models.Model):
@@ -31,7 +32,7 @@ class Materia(models.Model):
     materia_correlativa = models.OneToOneField('self', null=True, blank=True, on_delete=models.SET_NULL)
     
     def __str__(self):
-        return self.siglas
+        return self.nombre
     
 
 class Curso(models.Model):
@@ -45,6 +46,8 @@ class EstadoCurso(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
 
+    def __str__(self):
+        return self.nombre
 
 class Correlatividad(models.Model):
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
@@ -61,13 +64,27 @@ class CondicionFinal(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
 
+    def __str__(self):
+        return self.nombre
+    
+
 class Inscripcion(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, default='')
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
     condicionFinal = models.ForeignKey(CondicionFinal, on_delete=models.CASCADE)
     fechaInicio = models.DateTimeField()
-    fechaFinal = models.DateTimeField()
+    fechaFinal = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return self.curso
+    
+    def setFechaIncio(self):
+        self.fechaInicio = date.today()
+
+    def setFechaFinal(self, fechaFinal):
+        self.fechaFinal = fechaFinal
+
 
 class NotaEvaluacion(models.Model):
     nombre = models.CharField(max_length=255)
