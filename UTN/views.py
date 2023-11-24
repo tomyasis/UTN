@@ -147,12 +147,15 @@ def historial(request):
 
 
 def notas(request):
+    if request.method == 'GET':
+        notas = NotaEvaluacion.objects.filter(Inscripcion__usuario = request.user)
+        return render(request, 'notas.html', {'notas' : notas})
 
-    return render(request, 'notas.html')
+    def __str__(self):
+        return self.nombre
 
 
-
-def horarios_clases(request):
+def horarios_clases(request):       
     if request.method == 'POST':
         form = HorarioClaseForm(request.POST)
         if form.is_valid():

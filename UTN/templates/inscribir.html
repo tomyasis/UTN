@@ -4,11 +4,11 @@
 
 {% block content %}
 
-    <h1>Inscribir a materias</h1>
+    <link rel="stylesheet" type="text/css" href="../static/css/inscribir.css">    <h1>Inscribir a materias</h1>
     <p>
         {% if mensaje %}
-        <p style="color: rgb(14, 123, 0);">{{ mensaje }}</p>
-        <p style="color: rgb(14, 123, 0);">CODIGO:{{ codigo }}</p>
+        <p >{{ mensaje }}</p>
+        <p >CODIGO:{{ codigo }}</p>
         {% endif %}
     </p>
     {% csrf_token %}
