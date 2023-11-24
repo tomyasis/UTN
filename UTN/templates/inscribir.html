@@ -5,9 +5,12 @@
 {% block content %}
 
     <h1>Inscribir a materias</h1>
-    <p>{{materias_totales}}</p>
-    <p>{{carreras}}</p>
-        
+    <p>
+        {% if mensaje %}
+        <p style="color: rgb(14, 123, 0);">{{ mensaje }}</p>
+        <p style="color: rgb(14, 123, 0);">CODIGO:{{ codigo }}</p>
+        {% endif %}
+    </p>
     {% csrf_token %}
         
         {% for c in carreras %}
@@ -30,6 +33,7 @@
 
                             <input type="hidden" name="materia_id" value="{{ m.id }}">
                             <input type="hidden" name="carrera_id" value="{{ c.id }}">
+                            <input type="hidden" name="curso_id" value="{{ a.id }}">
 
                             <input type="submit" value="Inscribirse">
                         </form>

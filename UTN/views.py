@@ -3,7 +3,7 @@ from UTN.models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-
+from datetime import datetime
 
 # Create your views here.
 def inicio(request):
@@ -89,11 +89,15 @@ def inscribir(request):
         for c in carreras:
             materias = Materia.objects.filter(carrera = c)
             for m in materias:
-                materias_totales.append(m)
-                cursos = Curso.objects.filter(materia = m)
-                for a in cursos:
-                    cursos_totales.append(a)
-                    
+                #corroboro que no este ya inscripto
+                inscripcion_existente = Inscripcion.objects.filter(usuario=usuario, materia=m).exists()
+                
+                if not inscripcion_existente:
+                    materias_totales.append(m)
+                    cursos = Curso.objects.filter(materia = m)
+                    for a in cursos:
+                        cursos_totales.append(a)
+
         return render(request, 'inscribir.html', { 'materias_totales' : materias_totales,
                                                     'carreras' : carreras,
                                                     'cursos_totales' : cursos_totales})
@@ -102,17 +106,24 @@ def inscribir(request):
         # Obtener los datos del formulario
         carrera_id = request.POST['carrera_id']
         materia_id = request.POST['materia_id']
+        curso_id = request.POST['curso_id']
 
         carrera = Carrera.objects.get(id=carrera_id)
         materia = Materia.objects.get(id=materia_id)
+        curso = Curso.objects.get(id=curso_id)
 
         # Crear una nueva instancia de Inscripcion
         inscripcion = Inscripcion()
         inscripcion.usuario = request.user
         inscripcion.carrera = carrera
-        #inscripcion.curso = materia
-        inscripcion.fechaInicio = inscribir.setFechaIncio()
+        inscripcion.curso = curso
+        inscripcion.condicionFinal = CondicionFinal.objects.get(id=5)
+        inscripcion.fechaInicio = datetime.now()
         inscripcion.save()
+        codigo = Inscripcion.generar_codigo_alfanumerico()
+
+        return render(request, 'inscribir.html', { 'codigo' : codigo, 
+                                                   'mensaje' : 'Inscripción exitosa' })
 
 def horario(request):
 

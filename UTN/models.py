@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from datetime import date
+import random
+import string
 
 
 class Tipodocumento(models.Model):
@@ -90,14 +91,15 @@ class Inscripcion(models.Model):
     fechaFinal = models.DateTimeField(null=True)
 
     def __str__(self):
-        return self.curso
-    
-    def setFechaIncio(self):
-        self.fechaInicio = date.today()
+        return self.curso.nombreCurso + ' ' + self.usuario.username
 
     def setFechaFinal(self, fechaFinal):
         self.fechaFinal = fechaFinal
 
+    def generar_codigo_alfanumerico():
+        caracteres = string.ascii_letters + string.digits
+        codigo = ''.join(random.choice(caracteres) for _ in range(15))
+        return codigo
 
 class NotaEvaluacion(models.Model):
     nombre = models.CharField(max_length=255)
@@ -107,7 +109,7 @@ class NotaEvaluacion(models.Model):
     Inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, default='')
     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
 
-    
+
 class Historial(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
