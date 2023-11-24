@@ -140,7 +140,7 @@ def horario(request):
 def historial(request):
     if request.method == 'GET':
         print(request.user)
-        inscripciones = Inscripcion.objects.filter(usuario = request.user)
+        inscripciones = Inscripcion.objects.filter(usuario = request.user).order_by('fechaInicio')
         return render(request, 'historial.html', {'inscripciones' : inscripciones})
     else:
         return render(request, 'historial.html')
@@ -152,7 +152,7 @@ def notas(request):
 
 
 
-#def horarios_clases(request):
+def horarios_clases(request):
     if request.method == 'POST':
         form = HorarioClaseForm(request.POST)
         if form.is_valid():

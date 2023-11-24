@@ -76,6 +76,9 @@ class Profesor(models.Model):
     correo = models.EmailField(default='')
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nombre + ' ' + self.apellido
+
 class CondicionFinal(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
@@ -111,6 +114,8 @@ class NotaEvaluacion(models.Model):
     Inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, default='')
     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nombre
 
 class Historial(models.Model):
     nombre = models.CharField(max_length=255)
