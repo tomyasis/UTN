@@ -5,11 +5,11 @@
 {% block content %}
 
     <h1>Notas</h1>
-    {% for n in notas %}    
-       <h3>{{n.inscripcion.curso.materia}}</h3>
-       <h5>{{n}}</h5>
-       <h5>Nota: {{n.nota}}</h5>
-       <h5>Profesor : {{n.inscripcion.curso.profesor}}</h5>
+    
+    {% for n in notas %}
+        <h3>{{n.Inscripcion.curso.materia}}</h3>
+        <p>{{ n }}</p>
+        <p>Nota: {{ n.valor }}</p>
+        <p>Profesor: {{ n.profesor }}</p>
     {% endfor %}
-
-{% endblock %}
+{% endblock %}  

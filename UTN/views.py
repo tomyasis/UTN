@@ -144,5 +144,5 @@ def notas(request):
 
     if request.method == 'GET':
         notas = NotaEvaluacion.objects.filter(Inscripcion__usuario = request.user)
-        return render(request, 'notas.html', {'notas' : notas})
-    return render(request, 'notas.html')
+        print(notas)
+        return render(request, 'notas.html', {'notas' : notas, 'previous_materia' : ""})
