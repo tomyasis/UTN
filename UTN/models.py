@@ -109,6 +109,8 @@ class NotaEvaluacion(models.Model):
     Inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, default='')
     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nombre
 
 class Historial(models.Model):
     nombre = models.CharField(max_length=255)
