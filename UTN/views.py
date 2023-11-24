@@ -90,7 +90,7 @@ def inscribir(request):
             materias = Materia.objects.filter(carrera = c)
             for m in materias:
                 #corroboro que no este ya inscripto
-                inscripcion_existente = Inscripcion.objects.filter(usuario=usuario, materia=m).exists()
+                inscripcion_existente = Inscripcion.objects.filter(usuario=usuario, curso__materia=m).exists()
                 
                 if not inscripcion_existente:
                     materias_totales.append(m)
