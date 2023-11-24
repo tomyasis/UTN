@@ -13,21 +13,15 @@ classDiagram
     -Tipodocumento Tipodocumento
     -String documento
     -Date fecha_nacimiento
+
+    +crear()
+    +inscribirse()
+    +generarReporte()
     }
 
     class Tipodocumento{
     -String nombre
     -String descripcion<link rel="stylesheet" href="{% static 'css/index.css' %}">
-    }
-
-
-    class Alumno{
-    -Carrera listaCarrera
-    -Inscripcion listaInscripciones
-
-    +crear()
-    +inscribirse()
-    +generarReporte()
     }
 
     class Inscripcion{
@@ -124,6 +118,7 @@ classDiagram
     class Historial{
     -String nombre
     -String descripcion
+    -Inscripcion Inscripcion
     -Date fecha_inicio
     -Date fecha_final
     -EstadoCurso estado_curso
@@ -140,6 +135,9 @@ classDiagram
     }
 
     class Profesor{
+    -String nombre
+    -String apellido
+    -mail email
     -Curso curso
 
     +crear()
@@ -170,11 +168,9 @@ classDiagram
     }
 
     Usuario --> "1" Tipodocumento
-    Usuario <|-- Alumno
-    Usuario <|-- Profesor
 
-    Alumno --> "1--*" Inscripcion
-    Alumno --> "1..*" Carrera
+    Usuario --> "1..*" Inscripcion
+    Usuario --> "1..*" Carrera
 
     Carrera --> "1..*" Materia
 
@@ -184,7 +180,7 @@ classDiagram
     
     Inscripcion --> "1..*" NotaEvaluacion
     Inscripcion --> "1" EstadoCurso
-    Inscripcion --> "1..*" Curso
+    Inscripcion --> "1" Curso
     Inscripcion --> "1..*" Historial
 
     Curso --> "1" Turno

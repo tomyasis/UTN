@@ -16,7 +16,7 @@ modules = [
     NotaEvaluacion,
     Profesor,
     Inscripcion,
-    Alumno
+    CondicionFinal
 ]
 
 for i in modules:

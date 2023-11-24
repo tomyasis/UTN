@@ -67,3 +67,28 @@ def signup(request):
 
         return render(request, 'signup.html', {'error_message': error_message})
         
+
+def home(request):
+    return render(request, 'home.html')
+
+
+def inscribir(request):
+    if request.method == 'GET':    
+        return render(request, 'inscribir.html')
+    elif request.method == 'POST':
+        pass
+
+def horario(request):
+
+    return render(request, 'horario.html')
+    
+
+
+def historial(request):
+
+    return render(request, 'historial.html')
+
+
+def notas(request):
+
+    return render(request, 'notas.html')
