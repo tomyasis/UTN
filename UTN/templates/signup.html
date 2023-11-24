@@ -27,6 +27,19 @@
         <label for="last_name">Apellido:</label>
         <input type="text" id="last_name" name="last_name" required><br><br>
 
+        <label for="tipodocumento">Tipo de Documento:</label><br><br>
+        <select name="tipodocumento" id="tipodocumentoid">
+            {% for tipo_documento in tipos_documento %}
+                <option value="{{ tipo_documento.id }}">{{ tipo_documento.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="documento"> Documento:</label>
+        <input type="text" id="documento" name="documento" required><br><br>
+
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"></label>
+
         <input type="submit" value="Registrar">
     </form>
     

@@ -22,7 +22,7 @@ class Usuario(AbstractUser):
     tipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE, null=True)
     documento = models.CharField(max_length=20, null=True)
     fecha_nacimiento = models.DateField(null=True)
-    carrera = models.ManyToManyField(Carrera, null=True)
+    carrera = models.ManyToManyField(Carrera, null=True, default='')
 
 class Materia(models.Model):
     nombre = models.CharField(max_length=255)
@@ -38,6 +38,7 @@ class Curso(models.Model):
     nombreCurso = models.CharField(max_length=255)
     turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
     nivel = models.IntegerField()
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE, default='')
     listaHorarios = models.CharField(max_length=255)
 
 class EstadoCurso(models.Model):

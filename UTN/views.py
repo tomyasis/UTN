@@ -35,33 +35,40 @@ def signup(request):
     
     if request.method == 'GET':
         tiposdocumento = Tipodocumento.objects.all()
-        return render(request, 'signup.html', { 'tipos_documentos' : tiposdocumento})
-    
+        return render(request, 'signup.html', {'tipos_documento': tiposdocumento})    
+   
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
+        tipo_documento_id = request.POST['tipodocumento']
+        documento = request.POST['documento']
+        fecha_nacimiento = request.POST['fecha_nacimiento']
 
 
-        if User.objects.filter(username=username).exists():
+        if Usuario.objects.filter(username=username).exists():
             error_message = "El nombre de usuario ya está en uso."
         
-        elif User.objects.filter(email=email).exists():
+        elif Usuario.objects.filter(email=email).exists():
             error_message = "El correo electrónico ya está en uso."
 
-        elif User.objects.filter(password=password).exists():
+        elif Usuario.objects.filter(password=password).exists():
             error_message = "La contasenia ya esta en uso"
              
         else:
-            user = User.objects.create_user(
+            user = Usuario.objects.create_user(
                 username=username,
                 password=password,
                 email=email,
                 first_name=first_name,
                 last_name=last_name,
-                is_active = 'True'
+                is_active = 'True',
+                tipodocumento = Tipodocumento.objects.get(id = tipo_documento_id), 
+                documento = documento,
+                fecha_nacimiento = fecha_nacimiento
+
             )
             return render(request, 'home.html')
 
@@ -83,14 +90,17 @@ def inscribir(request):
                                                     'carreras' : carreras})
     elif request.method == 'POST':
         # Obtener los datos del formulario
-        carrera = request.POST['carrera']
-        materia = request.POST['materia']
+        carrera_id = request.POST['carrera_id']
+        materia_id = request.POST['materia_id']
+
+        carrera = Carrera.objects.get(id=carrera_id)
+        materia = Materia.objects.get(id=materia_id)
 
         # Crear una nueva instancia de Inscripcion
         inscripcion = Inscripcion()
         inscripcion.usuario = request.user
-        inscripcion.carrera = carrera.id
-        inscripcion.curso = materia.id
+        inscripcion.carrera = carrera
+        #inscripcion.curso = materia
         inscripcion.save()
 
 def horario(request):
