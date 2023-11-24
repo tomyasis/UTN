@@ -136,7 +136,8 @@ def historial(request):
         print(request.user)
         inscripciones = Inscripcion.objects.filter(usuario = request.user)
         return render(request, 'historial.html', {'inscripciones' : inscripciones})
-    return render(request, 'historial.html')
+    else:
+        return render(request, 'historial.html')
 
 
 def notas(request):
