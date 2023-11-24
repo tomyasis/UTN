@@ -1,6 +1,28 @@
-{% extends 'base2.html' %}
+<h1>Horario de Clases</h1>
 
-{% block title %} {% endblock %}
+<table>
+  <thead>
+    <tr>
+      <th>Día de la semana</th>
+      <th>Hora de inicio</th>
+      <th>Hora de fin</th>
+      <th>Asignatura</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for horario in horarios %}
+    <tr>
+      <td>{{ horario.dia_semana }}</td>
+      <td>{{ horario.hora_inicio }}</td>
+      <td>{{ horario.hora_fin }}</td>
+      <td>{{ horario.asignatura }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
-{% block content %}
-{% endblock %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Agregar Horario</button>
+</form>

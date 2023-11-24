@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+
+
 class Tipodocumento(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
@@ -74,3 +76,20 @@ class Historial(models.Model):
     fecha_final = models.DateField()
     Inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, default='')
     estado_curso = models.ForeignKey(EstadoCurso, on_delete=models.CASCADE)
+
+class HorarioClase(models.Model):
+    dia_semana = models.CharField(max_length=10)
+    hora_inicio = models.TimeField()
+    hora_fin = models.TimeField()
+    asignatura = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f"{self.dia_semana} - {self.hora_inicio} a {self.hora_fin}"
+
+class MiModelo(models.Model):
+    campo1 = models.CharField(max_length=50)
+    campo2 = models.IntegerField()
+    campo3 = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.campo1

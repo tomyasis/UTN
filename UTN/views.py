@@ -3,6 +3,9 @@ from UTN.models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from .models import HorarioClase
+from .forms import HorarioClaseForm
+
 
 
 # Create your views here.
@@ -92,3 +95,17 @@ def historial(request):
 def notas(request):
 
     return render(request, 'notas.html')
+
+
+
+def horarios_clases(request):
+    if request.method == 'POST':
+        form = HorarioClaseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('horarios_clases')
+    else:
+        form = HorarioClaseForm()
+        
+    horarios = HorarioClase.objects.all()
+    return render(request, 'horarios.html', {'horarios': horarios, 'form': form})
