@@ -3,4 +3,45 @@
 {% block title %} {% endblock %}
 
 {% block content %}
+
+    <h1>Inscribir a materias</h1>
+    <p>
+        {% if mensaje %}
+        <p style="color: rgb(14, 123, 0);">{{ mensaje }}</p>
+        <p style="color: rgb(14, 123, 0);">CODIGO:{{ codigo }}</p>
+        {% endif %}
+    </p>
+    {% csrf_token %}
+        
+        {% for c in carreras %}
+            <h1>{{c}}</h1>
+            
+            {% for m in materias_totales %}
+                {% if m.carrera == c %}
+                <h3>Materia:{{m}}</h3>
+
+                    {% for a in cursos_totales %}
+                        {% if a.materia == m %}
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <label for="curso">Curso: {{a}}</label>
+                            <br>
+                            <label for="curso">Turno: {{a.turno}}</label>
+                            <br>
+                            <label for="curso">Nivel: {{a.nivel}}</label>
+                            <br>
+
+                            <input type="hidden" name="materia_id" value="{{ m.id }}">
+                            <input type="hidden" name="carrera_id" value="{{ c.id }}">
+                            <input type="hidden" name="curso_id" value="{{ a.id }}">
+
+                            <input type="submit" value="Inscribirse">
+                        </form>
+
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
 {% endblock %}

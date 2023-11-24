@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from .models import HorarioClase
 from .forms import HorarioClaseForm
-
+from datetime import datetime
 
 
 # Create your views here.
@@ -24,9 +24,6 @@ def login_view (request):
         if user is not None:
             
             login(request, user)    
-            
-            #request.session["user"] = usuario
-            #request.session["password"] = contrasena
 
             return redirect('home')  
         else:
@@ -38,16 +35,20 @@ def signup(request):
     
     if request.method == 'GET':
         tiposdocumento = Tipodocumento.objects.all()
-        return render(request, 'signup.html', { 'tipos_documentos' : tiposdocumento})
-    
+        return render(request, 'signup.html', {'tipos_documento': tiposdocumento})    
+   
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
+        tipo_documento_id = request.POST['tipodocumento']
+        documento = request.POST['documento']
+        fecha_nacimiento = request.POST['fecha_nacimiento']
 
 
+        
         if Usuario.objects.filter(username=username).exists():
             error_message = "El nombre de usuario ya está en uso."
         
@@ -64,7 +65,11 @@ def signup(request):
                 email=email,
                 first_name=first_name,
                 last_name=last_name,
-                is_active = 'True'
+                is_active = 'True',
+                tipodocumento = Tipodocumento.objects.get(id = tipo_documento_id), 
+                documento = documento,
+                fecha_nacimiento = fecha_nacimiento
+
             )
             return render(request, 'home.html')
 
@@ -76,10 +81,53 @@ def home(request):
 
 
 def inscribir(request):
-    if request.method == 'GET':    
-        return render(request, 'inscribir.html')
+    if request.method == 'GET':
+
+        usuario = request.user   
+        carreras = usuario.carrera.all()
+        
+        materias_totales = []
+        cursos_totales = []
+        print(usuario.carrera.all())
+        
+        for c in carreras:
+            materias = Materia.objects.filter(carrera = c)
+            for m in materias:
+                #corroboro que no este ya inscripto
+                inscripcion_existente = Inscripcion.objects.filter(usuario=usuario, curso__materia=m).exists()
+                
+                if not inscripcion_existente:
+                    materias_totales.append(m)
+                    cursos = Curso.objects.filter(materia = m)
+                    for a in cursos:
+                        cursos_totales.append(a)
+
+        return render(request, 'inscribir.html', { 'materias_totales' : materias_totales,
+                                                    'carreras' : carreras,
+                                                    'cursos_totales' : cursos_totales})
+   
     elif request.method == 'POST':
-        pass
+        # Obtener los datos del formulario
+        carrera_id = request.POST['carrera_id']
+        materia_id = request.POST['materia_id']
+        curso_id = request.POST['curso_id']
+
+        carrera = Carrera.objects.get(id=carrera_id)
+        materia = Materia.objects.get(id=materia_id)
+        curso = Curso.objects.get(id=curso_id)
+
+        # Crear una nueva instancia de Inscripcion
+        inscripcion = Inscripcion()
+        inscripcion.usuario = request.user
+        inscripcion.carrera = carrera
+        inscripcion.curso = curso
+        inscripcion.condicionFinal = CondicionFinal.objects.get(id=5)
+        inscripcion.fechaInicio = datetime.now()
+        inscripcion.save()
+        codigo = Inscripcion.generar_codigo_alfanumerico()
+
+        return render(request, 'inscribir.html', { 'codigo' : codigo, 
+                                                   'mensaje' : 'Inscripción exitosa' })
 
 def horario(request):
 
@@ -88,8 +136,12 @@ def horario(request):
 
 
 def historial(request):
-
-    return render(request, 'historial.html')
+    if request.method == 'GET':
+        print(request.user)
+        inscripciones = Inscripcion.objects.filter(usuario = request.user)
+        return render(request, 'historial.html', {'inscripciones' : inscripciones})
+    else:
+        return render(request, 'historial.html')
 
 
 def notas(request):

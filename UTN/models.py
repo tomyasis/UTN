@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import random
+import string
 
 
 
@@ -8,18 +10,32 @@ class Tipodocumento(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
 
-class Usuario(AbstractUser):
-    tipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE, null=True)
-    documento = models.CharField(max_length=20, null=True)
-    fecha_nacimiento = models.DateField(null=True)
+    def __str__(self):
+        return self.nombre
+    
 
 class Turno(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
 
+    def __str__(self):
+        return self.nombre
+    
+
 class Carrera(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
+
+    def __str__(self):
+        return self.nombre
+    
+
+class Usuario(AbstractUser):
+    tipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE, null=True)
+    documento = models.CharField(max_length=20, null=True)
+    fecha_nacimiento = models.DateField(null=True)
+    carrera = models.ManyToManyField(Carrera, null=True, default='')
+
 
 class Materia(models.Model):
     nombre = models.CharField(max_length=255)
@@ -27,16 +43,27 @@ class Materia(models.Model):
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
     materia_correlativa = models.OneToOneField('self', null=True, blank=True, on_delete=models.SET_NULL)
     
+    def __str__(self):
+        return self.nombre
+    
+
 class Curso(models.Model):
     nombreCurso = models.CharField(max_length=255)
     turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
     nivel = models.IntegerField()
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE, default='')
     listaHorarios = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.nombreCurso
+    
 
 class EstadoCurso(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
 
+    def __str__(self):
+        return self.nombre
 
 class Correlatividad(models.Model):
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
@@ -53,13 +80,28 @@ class CondicionFinal(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
 
+    def __str__(self):
+        return self.nombre
+    
+
 class Inscripcion(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, default='')
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
     condicionFinal = models.ForeignKey(CondicionFinal, on_delete=models.CASCADE)
     fechaInicio = models.DateTimeField()
-    fechaFinal = models.DateTimeField()
+    fechaFinal = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return self.curso.nombreCurso + ' ' + self.usuario.username
+
+    def setFechaFinal(self, fechaFinal):    
+        self.fechaFinal = fechaFinal
+
+    def generar_codigo_alfanumerico():
+        caracteres = string.ascii_letters + string.digits
+        codigo = ''.join(random.choice(caracteres) for _ in range(15))
+        return codigo
 
 class NotaEvaluacion(models.Model):
     nombre = models.CharField(max_length=255)
@@ -68,6 +110,7 @@ class NotaEvaluacion(models.Model):
     fecha = models.DateField()
     Inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, default='')
     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
+
 
 class Historial(models.Model):
     nombre = models.CharField(max_length=255)
